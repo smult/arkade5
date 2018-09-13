@@ -2,6 +2,6 @@ namespace Arkivverket.Arkade.Core.Util
 {
     public interface IChecksumGenerator
     {
-        string GenerateChecksum(string filePath);
+        string GenerateChecksum(string filePathm, string algorithmName);
     }
 }
