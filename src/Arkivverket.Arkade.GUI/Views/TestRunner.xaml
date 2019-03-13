@@ -49,14 +49,17 @@
             <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,5" FontWeight="Bold">Fil som blir prosessert nå:</TextBlock>
             <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,5" FontWeight="Bold" Visibility="{Binding AddmlFlatFileStatusVisibility}">Antall filer prosessert:</TextBlock>
             <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,5" FontWeight="Bold" Visibility="{Binding AddmlFlatFileStatusVisibility}">Antall poster prosessert:</TextBlock>
-            <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,5" FontWeight="Bold" Visibility="{Binding AddmlDataObjectStatusVisibility}">Antall XML-elementer prosessert:</TextBlock>
+            <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,5" FontWeight="Bold" Visibility="{Binding AddmlFlatFileStatusVisibility}">Antall poster prosessert i siste fil:</TextBlock>
+            <TextBlock Grid.Row="7" Grid.Column="0" Margin="0,5" FontWeight="Bold" Visibility="{Binding AddmlDataObjectStatusVisibility}">Antall XML-elementer prosessert:</TextBlock>
 
             <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan ="2" Margin="5" TextWrapping="Wrap" Text="{Binding ArchiveInformationStatus.ArchiveFileName}"></TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding ArchiveInformationStatus.Uuid}"></TextBlock>
             <TextBlock Grid.Row="2" Grid.Column="1" Margin="5" Text="{Binding ArchiveInformationStatus.ArchiveType}"></TextBlock>
             <TextBlock Grid.Row="3" Grid.Column="1" Margin="5" Text="{Binding CurrentlyProcessingFile}"></TextBlock>
             <TextBlock Grid.Row="4" Grid.Column="1" Margin="5" Text="{Binding NumberOfProcessedFiles}" Visibility="{Binding AddmlFlatFileStatusVisibility}"></TextBlock>
-            <TextBlock Grid.Row="5" Grid.Column="1" Margin="5" Text="{Binding NumberOfProcessedRecords}"></TextBlock>
+            <TextBlock Grid.Row="5" Grid.Column="1" Margin="5" Text="{Binding NumberOfProcessedRecordsGeneral}" Visibility="{Binding AddmlFlatFileStatusVisibility}"></TextBlock>
+            <TextBlock Grid.Row="6" Grid.Column="1" Margin="5" Text="{Binding NumberOfProcessedRecordsLocal}" Visibility="{Binding AddmlFlatFileStatusVisibility}"></TextBlock>
+            <TextBlock Grid.Row="7" Grid.Column="1" Margin="5" Text="{Binding NumberOfProcessedRecords}"></TextBlock>
 
             <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
                 <Button Margin="20" HorizontalAlignment="Left" Content="Start testing"  Width="130" Height="30" Command="{Binding StartTestingCommand}"/>

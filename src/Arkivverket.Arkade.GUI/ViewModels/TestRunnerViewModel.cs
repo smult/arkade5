@@ -47,7 +47,8 @@ namespace Arkivverket.Arkade.GUI.ViewModels
         private Visibility _archiveCurrentProcessing = Visibility.Hidden;
         private Visibility _addmlDataObjectStatusVisibilty = Visibility.Collapsed;
         private Visibility _addmlFlatFileStatusVisibilty = Visibility.Collapsed;
-        private int _numberOfProcessedRecords = 0;
+        private int _numberOfProcessedRecordsGeneral = 0;
+        private int _numberOfProcessedRecordsLocal = 0;
         private int _numberOfProcessedFiles = 0;
         private string _currentlyProcessingFile;
         private string _currentActivityMessage;
@@ -96,10 +97,16 @@ namespace Arkivverket.Arkade.GUI.ViewModels
             set { SetProperty(ref _numberOfProcessedFiles, value); }
         }
 
-        public int NumberOfProcessedRecords
+        public int NumberOfProcessedRecordsGeneral
         {
-            get { return _numberOfProcessedRecords; }
-            set { SetProperty(ref _numberOfProcessedRecords, value); }
+            get { return _numberOfProcessedRecordsGeneral; }
+            set { SetProperty(ref _numberOfProcessedRecordsGeneral, value); }
+        }
+
+        public int NumberOfProcessedRecordsLocal
+        {
+            get { return _numberOfProcessedRecordsLocal;  }
+            set { SetProperty(ref _numberOfProcessedRecordsLocal, value);  }
         }
 
         public ObservableCollection<OperationMessage> OperationMessages
@@ -250,14 +257,17 @@ namespace Arkivverket.Arkade.GUI.ViewModels
         private void OnFileProcessFinishedEvent(object sender, FileProcessingStatusEventArgs eventArgs)
         {
             NumberOfProcessedFiles = NumberOfProcessedFiles + 1;
+            NumberOfProcessedRecordsLocal = 0;
         }
 
         private void OnRecordProcessingStartedEvent(object sender, EventArgs eventArgs)
         {
+            NumberOfProcessedRecordsLocal = NumberOfProcessedRecordsLocal + 1;
+            
         }
         private void OnRecordProcessingFinishedEvent(object sender, EventArgs eventArgs)
         {
-            NumberOfProcessedRecords = NumberOfProcessedRecords + 1;
+            NumberOfProcessedRecordsGeneral = NumberOfProcessedRecordsGeneral + 1;
         }
 
         private void OnNewArchiveInformationEvent(object sender, ArchiveInformationEventArgs eventArgs)
@@ -283,7 +293,7 @@ namespace Arkivverket.Arkade.GUI.ViewModels
                 
                 _arkadeApi.RunTests(_testSession);
                 
-                _testSession.TestSummary = new TestSummary(_numberOfProcessedFiles, _numberOfProcessedRecords, _numberOfTestsFinished);
+                _testSession.TestSummary = new TestSummary(_numberOfProcessedFiles, _numberOfProcessedRecordsGeneral, _numberOfProcessedRecordsLocal, _numberOfTestsFinished);
 
                 _testSession.AddLogEntry("Test run completed.");
                 
