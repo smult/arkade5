@@ -68,12 +68,12 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
         protected override void ReadStartElementEvent(object sender, ReadElementEventArgs eventArgs)
         {
-            if (eventArgs.NameEquals("gradering") && eventArgs.Path.GetParent() != "gradering")
+            if (eventArgs.NameEquals("gradering") && eventArgs.Path.GetParent().Name != "gradering")
             {
                 _classifications.Add(new Classification
                 {
                     ArchivePartSystemId = _currentArchivePartSystemId,
-                    ParentElementName = eventArgs.Path.GetParent()
+                    ParentElementName = eventArgs.Path.GetParent().Name
                 });
             }
         }

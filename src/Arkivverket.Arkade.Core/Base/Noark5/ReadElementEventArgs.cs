@@ -30,9 +30,9 @@ namespace Arkivverket.Arkade.Core.Base.Noark5
 
     public class ElementPath
     {
-        private readonly List<string> _path;
+        private readonly List<XmlElement> _path;
 
-        public ElementPath(List<string> path)
+        public ElementPath(List<XmlElement> path)
         {
             _path = path;
         }
@@ -45,12 +45,12 @@ namespace Arkivverket.Arkade.Core.Base.Noark5
             var matches = true;
             for (var i = 0; i < elementNames.Length; i++)
             {
-                matches = matches && string.Equals(elementNames[i], _path[i], StringComparison.CurrentCultureIgnoreCase);
+                matches = matches && string.Equals(elementNames[i], _path[i].Name, StringComparison.CurrentCultureIgnoreCase);
             }
             return matches;
         }
 
-        public string GetParent()
+        public XmlElement GetParent()
         {
             return _path.Count > 1 ? _path[1] : null;
         }

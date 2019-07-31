@@ -128,7 +128,7 @@ namespace Arkivverket.Arkade.Core.Tests.Testing.Noark5
         public string Value;
         public ElementType ElementType;
 
-        public ReadElementEventArgs AsEventArgs(Stack<string> path)
+        public ReadElementEventArgs AsEventArgs(Stack<XmlElement> path)
         {
             return new ReadElementEventArgs(Name, Value, new ElementPath(path.ToList()));
         }

@@ -93,7 +93,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
                 _restrictions.Add(new Restriction
                 {
                     ArchivePartSystemId = _currentArchivePartSystemId,
-                    ParentElementName = eventArgs.Path.GetParent()
+                    ParentElementName = eventArgs.Path.GetParent().Name
                 });
             }
         }

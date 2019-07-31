@@ -91,7 +91,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
                 _disposalResolutions.Add(new DisposalResolution
                 {
                     ArchivePartSystemId = _currentArchivePartSystemId,
-                    ParentElementName = eventArgs.Path.GetParent()
+                    ParentElementName = eventArgs.Path.GetParent().Name
                 });
             }
         }

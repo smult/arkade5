@@ -56,7 +56,7 @@ namespace Arkivverket.Arkade.Core.Base.Noark5
             {
                 RaiseEventStartParsingFile();
 
-                var path = new Stack<string>();
+                var path = new Stack<XmlElement>();
 
                 while (ReadNextNode(reader))
                 {
@@ -66,7 +66,9 @@ namespace Arkivverket.Arkade.Core.Base.Noark5
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Element:
-                            path.Push(reader.LocalName);
+                            var xmlElement = new XmlElement(reader.LocalName, 1, 1);
+                            
+                            path.Push(xmlElement);
                             RaiseReadStartElementEvent(CreateReadElementEventArgs(reader, path));
                             break;
                         case XmlNodeType.Attribute:
@@ -144,7 +146,7 @@ namespace Arkivverket.Arkade.Core.Base.Noark5
                 new FileProcessingStatusEventArgs(ArkadeConstants.ArkivstrukturXmlFileName, ArkadeConstants.ArkivstrukturXmlFileName, true));
         }
 
-        private static ReadElementEventArgs CreateReadElementEventArgs(XmlReader reader, Stack<string> path)
+        private static ReadElementEventArgs CreateReadElementEventArgs(XmlReader reader, Stack<XmlElement> path)
         {
             return new ReadElementEventArgs(reader.Name, reader.Value, new ElementPath(path.ToList()));
         }
@@ -182,6 +184,20 @@ namespace Arkivverket.Arkade.Core.Base.Noark5
         {
             var handler = ReadEndElementEvent;
             handler?.Invoke(this, readElementEventArgs);
+        }
+    }
+
+    public class XmlElement
+    {
+        public string Name { get; }
+        public int Row { get; }
+        public int Column { get; }
+
+        public XmlElement(string name, int row, int column)
+        {
+            Name = name;
+            Row = row;
+            Column = column;
         }
     }
 }

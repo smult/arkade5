@@ -58,7 +58,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
                 if (elementWithSystemId.Equals("arkivdel"))
                     _archivepartSystemIds.Add(systemId);
 
-                if (IsPossibleRefferer(elementWithSystemId))
+                if (IsPossibleRefferer(elementWithSystemId.Name))
                     _possibleReferrers.Peek().SystemId = systemId;
             }
 
@@ -66,7 +66,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
             {
                 var elementWithReference = eventArgs.Path.GetParent();
 
-                if (IsPossibleRefferer(elementWithReference))
+                if (IsPossibleRefferer(elementWithReference.Name))
                 {
                     var reference = eventArgs.Value;
                     _possibleReferrers.Peek().Reference = reference;
