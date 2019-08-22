@@ -121,9 +121,21 @@ namespace Arkivverket.Arkade.GUI.ViewModels
             if (ArchiveFileName == null)
                 return;
 
+            _archiveType = GetArchiveType(ArchiveFileName);
+
             _log.Information("User action: Choose archive folder {ArchiveFileName}", ArchiveFileName);
 
             PresentChosenArchiveInGui(ArchiveFileName, true);
+        }
+
+        private ArchiveType GetArchiveType(string archiveFileName)
+        {
+            if (File.Exists($"{archiveFileName}//arkivuttrekk.xml"))
+            {
+                return ArchiveType.Noark5;
+            }
+
+            return ArchiveType.Fagsystem;
         }
 
 
