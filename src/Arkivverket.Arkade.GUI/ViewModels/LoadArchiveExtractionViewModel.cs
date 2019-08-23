@@ -20,6 +20,7 @@ namespace Arkivverket.Arkade.GUI.ViewModels
         private string _archiveFileName;
         private string _archiveFileNameGuiRepresentation;
         private ArchiveType _archiveType;
+        private string _archiveTypeGuiRepresentation;
         private bool _isArchiveTypeSelected;
 
         public string ArchiveFileName
@@ -53,34 +54,30 @@ namespace Arkivverket.Arkade.GUI.ViewModels
             }
         }
 
+        public string ArchiveTypeGuiRepresentation
+        {
+            get { return _archiveTypeGuiRepresentation; }
+            set
+            {
+                SetProperty(ref _archiveTypeGuiRepresentation, value);
+                NavigateCommand.RaiseCanExecuteChanged();
+            }
+        }
+
 
         public DelegateCommand NavigateCommand { get; set; }
         public DelegateCommand OpenArchiveFileCommand { get; set; }
         public DelegateCommand OpenArchiveFolderCommand { get; set; }
-        public DelegateCommand<string> SetArchiveTypeCommand { get; set; } // Would be better to user ArchiveType enum as arg, but could not get to work with Prism
 
         public LoadArchiveExtractionViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
             OpenArchiveFileCommand = new DelegateCommand(OpenArchiveFileDialog);
             OpenArchiveFolderCommand = new DelegateCommand(OpenArchiveFolderDialog);
-            SetArchiveTypeCommand = new DelegateCommand<string>(SetArchiveTypeUserInput); 
-
             NavigateCommand = new DelegateCommand(Navigate, CanRunTests);
             _isArchiveTypeSelected = false;
         }
 
-        private void SetArchiveTypeUserInput(string archiveTypeSelected)
-        {
-            _log.Information($"User action: Select archive type {archiveTypeSelected}");
-
-            ArchiveType tempArchiveType;
-            if (ArchiveType.TryParse(archiveTypeSelected, true, out tempArchiveType))
-            {
-                _isArchiveTypeSelected = true;
-                ArchiveType = tempArchiveType;
-            }
-        }
 
         private void Navigate()
         {
@@ -109,7 +106,7 @@ namespace Arkivverket.Arkade.GUI.ViewModels
 
             _log.Information("User action: Choose archive file {ArchiveFileName}", ArchiveFileName);
 
-            PresentChosenArchiveInGui(ArchiveFileName, false);
+            PresentChosenArchiveInGui(ArchiveFileName, false); //todo
         }
 
         private void OpenArchiveFolderDialog()
@@ -121,21 +118,25 @@ namespace Arkivverket.Arkade.GUI.ViewModels
             if (ArchiveFileName == null)
                 return;
 
-            _archiveType = GetArchiveType(ArchiveFileName);
-
             _log.Information("User action: Choose archive folder {ArchiveFileName}", ArchiveFileName);
 
+            GetArchiveType(ArchiveFileName);
             PresentChosenArchiveInGui(ArchiveFileName, true);
         }
 
-        private ArchiveType GetArchiveType(string archiveFileName)
+        private void GetArchiveType(string archiveFileName)
         {
-            if (File.Exists($"{archiveFileName}//arkivuttrekk.xml"))
+            var path = $"{archiveFileName}//";
+
+            if (File.Exists($"{path}arkivuttrekk.xml"))
             {
-                return ArchiveType.Noark5;
+                _archiveType = ArchiveType.Noark5;
+                return;
             }
 
-            return ArchiveType.Fagsystem;
+            if (File.Exists($"{path}addml.xml"))
+                _archiveType = ArchiveType.Fagsystem;
+            _archiveType = ArchiveType.Fagsystem;
         }
 
 
@@ -174,6 +175,8 @@ namespace Arkivverket.Arkade.GUI.ViewModels
             {
                 ArchiveFileNameGuiRepresentation =
                     $"{Resources.GUI.LoadArchiveSelectedFolderText}: {new DirectoryInfo(archiveFileName).FullName}";
+                ArchiveTypeGuiRepresentation = $"{Resources.GUI.LoadArchiveDetectedArchiveTypeText}: {ArchiveType}";
+                _isArchiveTypeSelected = true;
             }
             else
             {

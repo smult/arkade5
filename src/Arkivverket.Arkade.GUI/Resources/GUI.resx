@@ -292,4 +292,7 @@ Du kan fortsatt lage en pakke av uttrekket.</value>
   <data name="LoadArchiveNoark4OptionDisabledTooltip" xml:space="preserve">
     <value>Arkade støtter inntil videre ikke arkivuttrekk av typen Noark 4</value>
   </data>
+  <data name="LoadArchiveDetectedArchiveTypeText" xml:space="preserve">
+    <value>Arkivtype</value>
+  </data>
 </root>
