@@ -399,7 +399,7 @@ Generert:  {2}</value>
     <value>Registreringstype: {0} - Antall: {1}</value>
   </data>
   <data name="NumberOfClassesTestResultMessage" xml:space="preserve">
-    <value>Arkivdel (systemID): {0} - {1} klassifikasjonssystem (systemID): {2} - </value>
+    <value>Arkivdel (systemID - tittel): {0} - {1} {2} klassifikasjonssystem (systemID): {3} - </value>
   </data>
   <data name="ArchiveStartAndEndDateControlMessage_NoArchiveDatesFound" xml:space="preserve">
     <value>Det ble ikke funnet noen journaldatoer i arkivuttrekket</value>
