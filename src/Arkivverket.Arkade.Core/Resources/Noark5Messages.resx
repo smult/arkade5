@@ -300,7 +300,7 @@ Generert:  {2}</value>
     <value>Arkivdelstatus: {0}</value>
   </data>
   <data name="StatusOfArchivePartsMessage_ForArchivePart" xml:space="preserve">
-    <value>Status for arkivdel (systemID) {0}: {1}</value>
+    <value>Status for arkivdel (systemID - tittel) {0} - {1}: {2}</value>
   </data>
   <data name="NumberOfClassificationSystemsMessage_ClassificationSystemInArchivePart" xml:space="preserve">
     <value>Antall klassifikasjonssystemer i arkivdel (systemID - tittel) {0} - {1}: {2}</value>

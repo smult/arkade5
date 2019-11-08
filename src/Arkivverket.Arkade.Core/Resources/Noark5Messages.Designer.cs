@@ -828,7 +828,7 @@ namespace Arkivverket.Arkade.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Status for arkivdel (systemID) {0}: {1}.
+        ///   Looks up a localized string similar to Status for arkivdel (systemID - tittel) {0} - {1}: {2}.
         /// </summary>
         internal static string StatusOfArchivePartsMessage_ForArchivePart {
             get {
