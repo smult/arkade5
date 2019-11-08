@@ -396,7 +396,7 @@ namespace Arkivverket.Arkade.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Antall klassifikasjonssystemer i arkivdel (systemID) {0}: {1}.
+        ///   Looks up a localized string similar to Antall klassifikasjonssystemer i arkivdel (systemID - tittel) {0} - {1}: {2}.
         /// </summary>
         internal static string NumberOfClassificationSystemsMessage_ClassificationSystemInArchivePart {
             get {

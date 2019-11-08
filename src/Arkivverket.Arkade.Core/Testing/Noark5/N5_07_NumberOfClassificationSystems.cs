@@ -10,8 +10,8 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
     {
         private readonly TestId _id = new TestId(TestId.TestKind.Noark5, 7);
 
-        private readonly Dictionary<string, int> _classificationSystemsPerArchivePart = new Dictionary<string, int>();
-        private string _currentArchivePartSystemId = string.Empty;
+        private readonly Dictionary<N5_07_ArchivePart, int> _classificationSystemsPerArchivePart = new Dictionary<N5_07_ArchivePart, int>();
+        private N5_07_ArchivePart _currentArchivePart = new N5_07_ArchivePart();
 
         public override TestId GetId()
         {
@@ -34,12 +34,12 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
             if (_classificationSystemsPerArchivePart.Count > 1)
             {
-                foreach (KeyValuePair<string, int> classificationCountAtLevel in _classificationSystemsPerArchivePart)
+                foreach (KeyValuePair<N5_07_ArchivePart, int> classificationCountAtLevel in _classificationSystemsPerArchivePart)
                 {
                     var testResult = new TestResult(ResultType.Success, new Location(string.Empty),
                         string.Format(
                             Noark5Messages.NumberOfClassificationSystemsMessage_ClassificationSystemInArchivePart,
-                            classificationCountAtLevel.Key, classificationCountAtLevel.Value));
+                            classificationCountAtLevel.Key.Id, classificationCountAtLevel.Key.Name, classificationCountAtLevel.Value));
 
                     testResults.Add(testResult);
                 }
@@ -52,10 +52,10 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
         {
             if (eventArgs.Path.Matches("klassifikasjonssystem", "arkivdel"))
             {
-                if (_classificationSystemsPerArchivePart.ContainsKey(_currentArchivePartSystemId))
-                    _classificationSystemsPerArchivePart[_currentArchivePartSystemId]++;
+                if (_classificationSystemsPerArchivePart.ContainsKey(_currentArchivePart))
+                    _classificationSystemsPerArchivePart[_currentArchivePart]++;
                 else
-                    _classificationSystemsPerArchivePart.Add(_currentArchivePartSystemId, 1);
+                    _classificationSystemsPerArchivePart.Add(_currentArchivePart, 1);
             }
         }
 
@@ -66,13 +66,18 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
         protected override void ReadElementValueEvent(object sender, ReadElementEventArgs eventArgs)
         {
             if (eventArgs.Path.Matches("systemID", "arkivdel"))
-                _currentArchivePartSystemId = eventArgs.Value;
+                _currentArchivePart.Id = eventArgs.Value;
+
+            if (eventArgs.Path.Matches("tittel", "arkivdel"))
+                _currentArchivePart.Name = eventArgs.Value;
         }
 
         protected override void ReadEndElementEvent(object sender, ReadElementEventArgs eventArgs)
         {
             if (eventArgs.NameEquals("arkivdel"))
-                _currentArchivePartSystemId = string.Empty;
+                _currentArchivePart = new N5_07_ArchivePart();
         }
+       
+        private class N5_07_ArchivePart : ArchivePart { }
     }
 }
