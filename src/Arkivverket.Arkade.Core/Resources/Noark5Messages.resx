@@ -309,7 +309,7 @@ Generert:  {2}</value>
     <value>Arkivdel (systemID) {0}: {1}</value>
   </data>
   <data name="NumberOfFoldersPerYear_ForArchivePart" xml:space="preserve">
-    <value>Arkivdel (systemID) {0} - {1}: {2}</value>
+    <value>Arkivdel (systemID - tittel) {0} - {1} - {2}: {3}</value>
   </data>
   <data name="DatesFirstAndLastRegistrationMessage_CreationDateFirstRegistration_InArchivePart" xml:space="preserve">
     <value>Arkivdel (systemID) {0} - Første registrering: Opprettet {1}</value>
