@@ -207,7 +207,7 @@ Generert:  {2}</value>
     <value>Referert dokumentfil: {0} - Antall referanser: {1}</value>
   </data>
   <data name="ArchivePartSystemId" xml:space="preserve">
-    <value>Arkivdel (systemID): {0}</value>
+    <value>Arkivdel (systemID - tittel): {0} - {1}</value>
   </data>
   <data name="ControlNoSuperclassesHasFoldersMessage" xml:space="preserve">
     <value>Klasse med systemID {0}</value>
