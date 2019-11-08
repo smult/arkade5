@@ -585,7 +585,7 @@ namespace Arkivverket.Arkade.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Arkivdel (systemID) {0} - klassifikasjonssystem (systemID) {1}: {2}.
+        ///   Looks up a localized string similar to Arkivdel (systemID - tittel) {0} - {1} - klassifikasjonssystem (systemID) {2}: {3}.
         /// </summary>
         internal static string NumberOfEmptyClassesInMainClassificationSystem {
             get {
