@@ -36,7 +36,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
                     classificationSystem.Primary ? Noark5Messages.Primary : Noark5Messages.Secondary;
 
                 string message = string.Format(Noark5Messages.NumberOfClassesTestResultMessage,
-                    classificationSystem.ArchivePart.Id,
+                    classificationSystem.ArchivePart.SystemId,
                     classificationSystem.ArchivePart.Name,
                     primaryOrSecondary,
                     classificationSystem.ClassificationSystemId);
@@ -98,7 +98,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
                 _currentArchivePart.Name = eventArgs.Value;
             if (eventArgs.Path.Matches("systemId", "arkivdel"))
             {
-                _currentArchivePart.Id = eventArgs.Value;
+                _currentArchivePart.SystemId = eventArgs.Value;
             }
         }
 
@@ -116,7 +116,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
         private bool IsPrimaryClassificationSystem()
         {
-            return _classificationSystems.All(c => c.ArchivePart.Id != _currentArchivePart.Id);
+            return _classificationSystems.All(c => c.ArchivePart.SystemId != _currentArchivePart.SystemId);
         }
 
         private class ClassificationSystem

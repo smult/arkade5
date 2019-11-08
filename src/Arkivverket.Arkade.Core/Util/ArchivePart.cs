@@ -6,7 +6,7 @@ namespace Arkivverket.Arkade.Core.Util
 {
     public abstract class ArchivePart
     {
-        public string Id { get; set; }
+        public string SystemId { get; set; }
         public string Name { get; set; }
     }
 }

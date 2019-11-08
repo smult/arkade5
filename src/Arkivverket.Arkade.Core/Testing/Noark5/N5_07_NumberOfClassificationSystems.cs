@@ -39,7 +39,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
                     var testResult = new TestResult(ResultType.Success, new Location(string.Empty),
                         string.Format(
                             Noark5Messages.NumberOfClassificationSystemsMessage_ClassificationSystemInArchivePart,
-                            classificationCountAtLevel.Key.Id, classificationCountAtLevel.Key.Name, classificationCountAtLevel.Value));
+                            classificationCountAtLevel.Key.SystemId, classificationCountAtLevel.Key.Name, classificationCountAtLevel.Value));
 
                     testResults.Add(testResult);
                 }
@@ -66,7 +66,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
         protected override void ReadElementValueEvent(object sender, ReadElementEventArgs eventArgs)
         {
             if (eventArgs.Path.Matches("systemID", "arkivdel"))
-                _currentArchivePart.Id = eventArgs.Value;
+                _currentArchivePart.SystemId = eventArgs.Value;
 
             if (eventArgs.Path.Matches("tittel", "arkivdel"))
                 _currentArchivePart.Name = eventArgs.Value;
