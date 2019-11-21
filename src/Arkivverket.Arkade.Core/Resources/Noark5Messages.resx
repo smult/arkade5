@@ -306,7 +306,7 @@ Generert:  {2}</value>
     <value>Antall klassifikasjonssystemer i arkivdel (systemID - tittel) {0} - {1}: {2}</value>
   </data>
   <data name="NumberOf_PerArchivePart" xml:space="preserve">
-    <value>Arkivdel (systemID) {0}: {1}</value>
+    <value>Arkivdel (systemID - tittel) {0} - {1}: {2}</value>
   </data>
   <data name="NumberOfFoldersPerYear_ForArchivePart" xml:space="preserve">
     <value>Arkivdel (systemID - tittel) {0} - {1} - {2}: {3}</value>
