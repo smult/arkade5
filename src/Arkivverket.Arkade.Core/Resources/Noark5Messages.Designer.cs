@@ -205,7 +205,7 @@ namespace Arkivverket.Arkade.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Arkivdel (systemID) {0} - Første registrering: Opprettet {1}.
+        ///   Looks up a localized string similar to Arkivdel (systemID - tittel): {0} - {1} - Første registrering: Opprettet {2}.
         /// </summary>
         internal static string DatesFirstAndLastRegistrationMessage_CreationDateFirstRegistration_InArchivePart {
             get {
@@ -223,7 +223,7 @@ namespace Arkivverket.Arkade.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Arkivdel (systemID) {0} - Siste registrering: Opprettet {1}.
+        ///   Looks up a localized string similar to Arkivdel (systemID - tittel): {0} - {1} - Siste registrering: Opprettet {2}.
         /// </summary>
         internal static string DatesFirstAndLastRegistrationMessage_CreationDateLastRegistration_InArchivePart {
             get {
