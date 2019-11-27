@@ -16,8 +16,8 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
         private readonly DirectoryInfo _workingDirectory;
 
-        private readonly Dictionary<string, List<string>> _missingFilesPerArchivepart = new Dictionary<string, List<string>>();
-        private string _currentArchivepart; 
+        private readonly Dictionary<N5_32_ArchivePart, List<string>> _missingFilesPerArchivepart = new Dictionary<N5_32_ArchivePart, List<string>>();
+        private N5_32_ArchivePart _currentArchivePart = new N5_32_ArchivePart(); 
 
         public N5_32_ControlDocumentFilesExists(Archive archive)
         {
@@ -36,13 +36,13 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
         protected override List<TestResult> GetTestResults()
         {
-            foreach (KeyValuePair<string, List<string>> missingFilesAtArchivepart in _missingFilesPerArchivepart)
+            foreach (KeyValuePair<N5_32_ArchivePart, List<string>> missingFilesAtArchivepart in _missingFilesPerArchivepart)
             {
                 var message = "";
 
                 if (_missingFilesPerArchivepart.Keys.Count > 1)
                 {
-                    message = string.Format(Noark5Messages.ArchivePartSystemId, missingFilesAtArchivepart.Key) + " - ";
+                    message = string.Format(Noark5Messages.ArchivePartSystemId, missingFilesAtArchivepart.Key.SystemId, missingFilesAtArchivepart.Key.Name) + " - ";
                 }
 
                 foreach (string missingFile in missingFilesAtArchivepart.Value)
@@ -65,14 +65,17 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
         protected override void ReadEndElementEvent(object sender, ReadElementEventArgs eventArgs)
         {
+            if(eventArgs.NameEquals("arkivdel"))
+                _currentArchivePart = new N5_32_ArchivePart();
         }
 
         protected override void ReadElementValueEvent(object sender, ReadElementEventArgs eventArgs)
         {
             if (eventArgs.Path.Matches("systemID", "arkivdel"))
-            {
-                _currentArchivepart = eventArgs.Value;
-            }
+                _currentArchivePart.SystemId = eventArgs.Value;
+
+            if (eventArgs.Path.Matches("tittel", "arkivdel"))
+                _currentArchivePart.Name = eventArgs.Value;
 
             if (eventArgs.Path.Matches("referanseDokumentfil"))
             {
@@ -80,10 +83,10 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
                 if (!FileExists(documentFileName))
                 {
-                    if (_missingFilesPerArchivepart.ContainsKey(_currentArchivepart))
-                        _missingFilesPerArchivepart[_currentArchivepart].Add(documentFileName);
+                    if (_missingFilesPerArchivepart.ContainsKey(_currentArchivePart))
+                        _missingFilesPerArchivepart[_currentArchivePart].Add(documentFileName);
                     else
-                        _missingFilesPerArchivepart.Add(_currentArchivepart, new List<string>{documentFileName});
+                        _missingFilesPerArchivepart.Add(_currentArchivePart, new List<string>{documentFileName});
                     
                 }
             }
@@ -105,5 +108,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
                 return false; // File reference parse error means file doesn't exist with given filename
             }
         }
+
+        private class N5_32_ArchivePart : ArchivePart { }
     }
 }
