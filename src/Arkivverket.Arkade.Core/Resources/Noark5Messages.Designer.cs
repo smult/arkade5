@@ -423,7 +423,7 @@ namespace Arkivverket.Arkade.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Arkivdel (systemID): {0 } - Antall kryssreferanser fra basisregistreringer: {1}.
+        ///   Looks up a localized string similar to Arkivdel (systemID - tittel): {0} - {1} - Antall kryssreferanser fra basisregistreringer: {2}.
         /// </summary>
         internal static string NumberOfCrossReferencesToBasicRegistrationMessage_ForArchivePart {
             get {
@@ -441,7 +441,7 @@ namespace Arkivverket.Arkade.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Arkivdel (systemID): {0 } - Antall kryssreferanser fra klasser: {1}.
+        ///   Looks up a localized string similar to Arkivdel (systemID - tittel): {0 } - {1} - Antall kryssreferanser fra klasser: {2}.
         /// </summary>
         internal static string NumberOfCrossReferencesToClassMessage_ForArchivePart {
             get {
@@ -459,7 +459,7 @@ namespace Arkivverket.Arkade.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Arkivdel (systemID): {0 } - Antall kryssreferanser fra mapper: {1}.
+        ///   Looks up a localized string similar to Arkivdel (systemID - tittel): {0} - {1} - Antall kryssreferanser fra mapper: {2}.
         /// </summary>
         internal static string NumberOfCrossReferencesToFolderMessage_ForArchivePart {
             get {
