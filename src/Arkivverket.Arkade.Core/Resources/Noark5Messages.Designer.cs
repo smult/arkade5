@@ -702,7 +702,7 @@ namespace Arkivverket.Arkade.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Arkivdel (systemID) {0} - Antall presedenser i saksmapper: {1}.
+        ///   Looks up a localized string similar to Arkivdel (systemID - tittel) {0} - {1} - Antall presedenser i saksmapper: {2}.
         /// </summary>
         internal static string NumberOfPrecedentsInCaseFolderMessage_ForArchivePart {
             get {
@@ -720,7 +720,7 @@ namespace Arkivverket.Arkade.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Arkivdel (systemID) {0} - Antall presedenser i journalposter: {1}.
+        ///   Looks up a localized string similar to Arkivdel (systemID - tittel) {0} - {1} - Antall presedenser i journalposter: {2}.
         /// </summary>
         internal static string NumberOfPrecedentsInJournalpostsMessage_ForArchivePart {
             get {

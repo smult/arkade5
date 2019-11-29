@@ -324,10 +324,10 @@ Generert:  {2}</value>
     <value>Periodeskille er skarpt og antallet journalposter i arkivstrukturen er ikke likt det i offentlig og løpende journal</value>
   </data>
   <data name="NumberOfPrecedentsInJournalpostsMessage_ForArchivePart" xml:space="preserve">
-    <value>Arkivdel (systemID) {0} - Antall presedenser i journalposter: {1}</value>
+    <value>Arkivdel (systemID - tittel) {0} - {1} - Antall presedenser i journalposter: {2}</value>
   </data>
   <data name="NumberOfPrecedentsInCaseFolderMessage_ForArchivePart" xml:space="preserve">
-    <value>Arkivdel (systemID) {0} - Antall presedenser i saksmapper: {1}</value>
+    <value>Arkivdel (systemID - tittel) {0} - {1} - Antall presedenser i saksmapper: {2}</value>
   </data>
   <data name="NumberOfPrecedentsInJournalpostsMessage" xml:space="preserve">
     <value>Antall presedenser i journalposter: {0}</value>
