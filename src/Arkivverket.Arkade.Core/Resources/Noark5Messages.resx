@@ -336,7 +336,7 @@ Generert:  {2}</value>
     <value>Antall merknader i {0}: {1}</value>
   </data>
   <data name="NumberOfDepreciationsMessage_ForArchivePart" xml:space="preserve">
-    <value>Arkivdel (systemID) {0} - {1}: {2}</value>
+    <value>Arkivdel (systemID - tittel) {0} - {1} - {2}: {3}</value>
   </data>
   <data name="NumberOfCrossReferencesToBasicRegistrationMessage" xml:space="preserve">
     <value>Antall kryssreferanser fra basisregistreringer: {0}</value>
