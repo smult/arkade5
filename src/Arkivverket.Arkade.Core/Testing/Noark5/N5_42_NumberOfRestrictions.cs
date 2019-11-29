@@ -15,8 +15,8 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
     {
         private readonly TestId _id = new TestId(TestId.TestKind.Noark5, 42);
 
-        private string _currentArchivePartSystemId;
-        private bool _multipleArchiveParts;
+        private N5_42_ArchivePart _currentArchivePart = new N5_42_ArchivePart();
+        private List<N5_42_ArchivePart> archiveParts = new List<N5_42_ArchivePart>();
         private readonly List<Restriction> _restrictions;
         private readonly bool _documentationStatesRestrictions;
 
@@ -45,13 +45,15 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
             var restrictionQuery = from restriction in _restrictions
                 group restriction by new
                 {
-                    restriction.ArchivePartSystemId,
+                    restriction.ArchivePart.SystemId,
+                    restriction.ArchivePart.Name,
                     restriction.ParentElementName
                 }
                 into grouped
                 select new
                 {
-                    grouped.Key.ArchivePartSystemId,
+                    grouped.Key.SystemId,
+                    grouped.Key.Name,
                     grouped.Key.ParentElementName,
                     Count = grouped.Count()
                 };
@@ -61,9 +63,9 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
                 var message = new StringBuilder(
                     string.Format(Noark5Messages.NumberOfRestrictionsMessage, item.ParentElementName, item.Count));
 
-                if (_multipleArchiveParts)
+                if (archiveParts.Count > 1)
                     message.Insert(0,
-                        string.Format(Noark5Messages.ArchivePartSystemId, item.ArchivePartSystemId) + " - ");
+                        string.Format(Noark5Messages.ArchivePartSystemId, item.SystemId, item.Name) + " - ");
 
                 totalNumberOfRestrictions += item.Count;
 
@@ -92,7 +94,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
             {
                 _restrictions.Add(new Restriction
                 {
-                    ArchivePartSystemId = _currentArchivePartSystemId,
+                    ArchivePart = _currentArchivePart,
                     ParentElementName = eventArgs.Path.GetParent()
                 });
             }
@@ -104,17 +106,20 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
         protected override void ReadEndElementEvent(object sender, ReadElementEventArgs eventArgs)
         {
+            if(eventArgs.NameEquals("arkivdel"))
+                _currentArchivePart = new N5_42_ArchivePart();
         }
 
         protected override void ReadElementValueEvent(object sender, ReadElementEventArgs eventArgs)
         {
             if (eventArgs.Path.Matches("systemID", "arkivdel"))
             {
-                if (_currentArchivePartSystemId != null)
-                    _multipleArchiveParts = true;
-
-                _currentArchivePartSystemId = eventArgs.Value;
+                _currentArchivePart.SystemId = eventArgs.Value;
+                archiveParts.Add(_currentArchivePart);
             }
+
+            if (eventArgs.Path.Matches("tittel", "arkivdel"))
+                _currentArchivePart.Name = eventArgs.Value;
         }
 
         private static bool DocumentationStatesRestrictions(Archive archive)
@@ -132,8 +137,10 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
         private class Restriction
         {
-            public string ArchivePartSystemId { get; set; }
+            public N5_42_ArchivePart ArchivePart { get; set; }
             public string ParentElementName { get; set; }
         }
+
+        private class N5_42_ArchivePart : ArchivePart { }
     }
 }
