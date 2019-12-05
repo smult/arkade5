@@ -10,8 +10,8 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
     public class N5_46_NumberOfConversions : Noark5XmlReaderBaseTest
     {
         private readonly TestId _id = new TestId(TestId.TestKind.Noark5, 46);
-
-        private readonly Dictionary<string, int> _numberOfConvertionsPerArchivePart = new Dictionary<string, int>();
+        private N5_46_ArchivePart _currentArchivePart = new N5_46_ArchivePart();
+        private readonly Dictionary<N5_46_ArchivePart, int> _numberOfConvertionsPerArchivePart = new Dictionary<N5_46_ArchivePart, int>();
 
         public override TestId GetId()
         {
@@ -38,7 +38,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
                 if (_numberOfConvertionsPerArchivePart.Keys.Count > 1) // Multiple archiveparts
                 {
                     testResults.Insert(0, new TestResult(ResultType.Success, new Location(""),
-                        string.Format(Noark5Messages.ArchivePartSystemId, archivePartConvertionsCount.Key) +
+                        string.Format(Noark5Messages.ArchivePartSystemId, archivePartConvertionsCount.Key.SystemId, archivePartConvertionsCount.Key.Name) +
                         " - " + string.Format(Noark5Messages.TotalResultNumber, archivePartConvertionsCount.Value)));
                 }
             }
@@ -58,7 +58,13 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
         protected override void ReadElementValueEvent(object sender, ReadElementEventArgs eventArgs)
         {
             if (eventArgs.Path.Matches("systemID", "arkivdel"))
-                _numberOfConvertionsPerArchivePart[eventArgs.Value] = 0;
+            {
+                _currentArchivePart.SystemId = eventArgs.Value;
+                _numberOfConvertionsPerArchivePart.Add(_currentArchivePart, 0);
+            }
+                
+            if (eventArgs.Path.Matches("tittel", "arkivdel"))
+                _currentArchivePart.Name = eventArgs.Value;
         }
 
         protected override void ReadAttributeEvent(object sender, ReadElementEventArgs eventArgs)
@@ -67,6 +73,10 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
         protected override void ReadEndElementEvent(object sender, ReadElementEventArgs eventArgs)
         {
+            if(eventArgs.NameEquals("arkivdel"))
+                _currentArchivePart = new N5_46_ArchivePart();
         }
+
+        private class N5_46_ArchivePart : ArchivePart { }
     }
 }
