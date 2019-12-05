@@ -12,10 +12,10 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
         private bool _registrationIsFound;
         private bool _subfolderIsJustProcessed;
         private int _noRegistrationOrSubfolderCount;
-        private string _currentArchivePartSystemId;
+        private N5_14_ArchivePart _currentArchivePart = new N5_14_ArchivePart();
 
-        private readonly Dictionary<string, int> _noRegistrationOrSubfolderCountPerArchivePart =
-            new Dictionary<string, int>();
+        private readonly Dictionary<N5_14_ArchivePart, int> _noRegistrationOrSubfolderCountPerArchivePart =
+            new Dictionary<N5_14_ArchivePart, int>();
 
         public override TestId GetId()
         {
@@ -36,13 +36,13 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
             if (_noRegistrationOrSubfolderCountPerArchivePart.Count > 1)
             {
-                foreach (KeyValuePair<string, int> noRegistrationOrSubfolderCount in
+                foreach (KeyValuePair<N5_14_ArchivePart, int> noRegistrationOrSubfolderCount in
                     _noRegistrationOrSubfolderCountPerArchivePart)
                 {
                     if (noRegistrationOrSubfolderCount.Value > 0)
                     {
                         var testResult = new TestResult(ResultType.Success, new Location(string.Empty),
-                            string.Format(Noark5Messages.NumberOf_PerArchivePart, noRegistrationOrSubfolderCount.Key,
+                            string.Format(Noark5Messages.NumberOf_PerArchivePart, noRegistrationOrSubfolderCount.Key.SystemId, noRegistrationOrSubfolderCount.Key.Name,
                                 noRegistrationOrSubfolderCount.Value));
 
                         testResults.Add(testResult);
@@ -66,13 +66,21 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
         {
             if (eventArgs.Path.Matches("systemID", "arkivdel"))
             {
-                _currentArchivePartSystemId = eventArgs.Value;
-                _noRegistrationOrSubfolderCountPerArchivePart.Add(_currentArchivePartSystemId, 0);
+                _currentArchivePart.SystemId = eventArgs.Value;
+                _noRegistrationOrSubfolderCountPerArchivePart.Add(_currentArchivePart, 0);
             }
+              
+            if (eventArgs.Path.Matches("tittel", "arkivdel"))
+                _currentArchivePart.Name = eventArgs.Value;
         }
 
         protected override void ReadEndElementEvent(object sender, ReadElementEventArgs eventArgs)
         {
+            if (eventArgs.NameEquals("arkivdel"))
+            {
+                _currentArchivePart = new N5_14_ArchivePart();
+            }
+
             if (!eventArgs.NameEquals("mappe"))
                 return;
 
@@ -82,8 +90,8 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
 
                 if (_noRegistrationOrSubfolderCountPerArchivePart.Count > 0)
                 {
-                    if (_noRegistrationOrSubfolderCountPerArchivePart.ContainsKey(_currentArchivePartSystemId))
-                        _noRegistrationOrSubfolderCountPerArchivePart[_currentArchivePartSystemId]++;
+                    if (_noRegistrationOrSubfolderCountPerArchivePart.ContainsKey(_currentArchivePart))
+                        _noRegistrationOrSubfolderCountPerArchivePart[_currentArchivePart]++;
                 }
             }
 
@@ -92,5 +100,7 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
             if (eventArgs.Path.GetParent().Equals("mappe"))
                 _subfolderIsJustProcessed = true;
         }
+
+        private class N5_14_ArchivePart : ArchivePart { }
     }
 }
