@@ -22,15 +22,24 @@ namespace Arkivverket.Arkade.Core.Testing.Noark5
             ArchiveXmlFile publicJournal = archive.GetArchiveXmlFile(ArkadeConstants.PublicJournalXmlFileName);
             ArchiveXmlFile runningJournal = archive.GetArchiveXmlFile(ArkadeConstants.RunningJournalXmlFileName);
 
-            try
+           try
             {
                 _publicJournalNumberOfJournalPosts = GetPostCountFromJournal(publicJournal);
+            }
+            catch (Exception)
+            {
+                _testResults.Add(new TestResult(ResultType.Error, Location.Archive,
+                    Noark5Messages.NumberOfJournalPostsMessage_CouldNotReadFromPublicJournal));
+            }
+
+            try
+            {
                 _runningJournalNumberOfJournalPosts = GetPostCountFromJournal(runningJournal);
             }
             catch (Exception)
             {
                 _testResults.Add(new TestResult(ResultType.Error, Location.Archive,
-                    Noark5Messages.NumberOfJournalPostsMessage_CouldNotReadFromJournals));
+                    Noark5Messages.NumberOfJournalPostsMessage_CouldNotReadFromRunningJournal));
             }
 
             _periodSeparationIsSharp = Noark5TestHelper.PeriodSeparationIsSharp(archive);
